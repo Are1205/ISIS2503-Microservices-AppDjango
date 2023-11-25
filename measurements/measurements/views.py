@@ -20,7 +20,7 @@ def check_places(data):
     r = requests.get(settings.PATH_PLA)
     places = r.json()
     for place in places:
-        if data["place"] == place["id"]:
+        if data["place"] == place["name"]:
             return True
     return False
 
@@ -33,7 +33,7 @@ def MeasurementCreate(request):
     if request.method == 'POST':
         data = request.body.decode('utf-8')
         data_json = json.loads(data)
-        if check_variable(data_json) == True and check_places(measurement) == True:
+        if check_variable(data_json) == True and check_places(data_json) == True:
             measurement = Measurement()
             measurement.variable = data_json['variable']
             measurement.value = data_json['value']
@@ -58,7 +58,7 @@ def MeasurementsCreate(request):
                         db_measurement.place = measurement['place']
                         measurement_list.append(db_measurement)
                     else:
-                        return HttpResponse("unsuccessfully created measurement. Variable does not exist")
+                        return HttpResponse("unsuccessfully created measurement. Variable does not exist", status=400)
         
         Measurement.objects.bulk_create(measurement_list)
         return HttpResponse("successfully created measurements")
