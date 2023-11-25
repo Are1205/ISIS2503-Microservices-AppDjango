@@ -7,7 +7,7 @@ from django.http import JsonResponse
 import json
 
 def placesList(request):
-    queryset = Variable.objects.all()
+    queryset = Place.objects.all()
     context = list(queryset.values('id', 'name'))
     return JsonResponse(context, safe=False)
 
