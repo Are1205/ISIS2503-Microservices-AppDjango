@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.http import JsonResponse
 import json
 
-def placesleList(request):
+def placesList(request):
     queryset = Variable.objects.all()
     context = list(queryset.values('id', 'name'))
     return JsonResponse(context, safe=False)
